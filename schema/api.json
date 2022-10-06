@@ -1,0 +1,86 @@
+{
+  "info": {
+    "title": "Aeonyx.io tech blog API",
+    "description": "This is a simple blog API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://aeonyx.io/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "post",
+      "description": "Blog post",
+      "externalDocs": {
+        "description": "Blog online at",
+        "url": "http://aeonyx.io"
+      }
+    }
+  ],
+  "paths": {
+    "/post/:id": {
+      "get": {
+        "tags": ["post"],
+        "summary": "Get a blog post",
+        "description": "Get a blog post by a given ID",
+        "operationId": "getPostById",
+        "pathParams": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "pattern": "^[a-z0-9-]+$",
+              "type": "string"
+            }
+          },
+          "required": ["id"]
+        },
+        "responseBody": {
+          "$ref": "objects.json#/Post"
+        }
+      }
+    },
+    "/post": {
+      "get": {
+        "tags": ["post"],
+        "summary": "Get a summary of blog posts",
+        "description": "Get a summary of blog posts",
+        "operationId": "getPostsSummary",
+        "responseBody": {
+          "$ref": "objects.json#/PostsSummary"
+        }
+      }
+    },
+    "/doc": {
+      "get": {
+        "tags": ["doc"],
+        "description": "Get a summary of documentation",
+        "operationId": "getDocumentationSummary",
+        "responseBody": {
+          "$ref": "objects.json#/DocSummary"
+        }
+      }
+    },
+    "/doc/:id": {
+      "get": {
+        "tags": ["doc"],
+        "description": "Get a specific documentation section",
+        "operationId": "getDocumentationSection",
+        "pathParams": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "pattern": "^[a-z0-9-|]+$",
+              "type": "string"
+            }
+          },
+          "required": ["id"]
+        },
+        "responseBody": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+import {DocSummary} from '../../common/DocSummary.ts';export type GetDocumentationSummaryResponseDto = DocSummary;

@@ -1,0 +1,1 @@
+export type GetDocumentationSectionPathParams = {id:string;};

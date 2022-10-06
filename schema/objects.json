@@ -1,0 +1,124 @@
+{
+  "Post": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "thumbnail": {
+        "type": "string"
+      },
+      "markdown": {
+        "type": "string"
+      },
+      "author": {
+        "$ref": "objects.json#/Author"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "date": {
+        "type": "string",
+        "format": "date-time"
+      }
+    }
+  },
+  "PostsSummary": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "thumbnail": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "Author": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "youtube": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "thumbnail": {
+        "type": "string"
+      }
+    }
+  },
+  "DocSummary": {
+    "type": "object",
+    "additionalProperties": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "default": {
+          "type": "string"
+        },
+        "sections": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "subSections": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+import {Author} from './Author.ts';export type Post = {id?:string;title?:string;description?:string;thumbnail?:string;markdown?:string;author?:Author;tags?:string[];date?:string;};
