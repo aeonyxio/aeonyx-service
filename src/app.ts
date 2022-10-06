@@ -1,12 +1,12 @@
-import { Application as OakApplication } from "$oak/mod.ts";
-import { router } from "$generated/router.ts";
-import { registerSchemaValidator } from "$schema-validator/mod.ts";
-import { PORT } from "@/config.ts";
-import { PostController } from "@/controller/post/controller.ts";
-import { DocController } from "@/controller/doc/controller.ts";
-import { DataProvider } from "@/provider/data.ts";
-import { injector } from "$injector/mod.ts";
-import { join } from "$std/path/win32.ts";
+import { Application as OakApplication } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import { router } from "../gen/router.ts";
+import { registerSchemaValidator } from "../schema-validator/mod.ts";
+import { PORT } from "./config.ts";
+import { PostController } from "./controller/post/controller.ts";
+import { DocController } from "./controller/doc/controller.ts";
+import { DataProvider } from "./provider/data.ts";
+import { injector } from "../injector/mod.ts";
+import { join } from "https://deno.land/std@0.156.0/path/win32.ts";
 
 export class Application {
   app: OakApplication;

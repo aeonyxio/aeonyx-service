@@ -1,7 +1,7 @@
-import { injector } from "$injector/mod.ts";
-import { DataProvider } from "@/provider/data.ts";
-import { GetDocumentationSectionFunction } from "$generated/router.ts";
-import { RendererService } from "@/service/renderer.service.ts";
+import { injector } from "../../../injector/mod.ts";
+import { DataProvider } from "../../provider/data.ts";
+import { GetDocumentationSectionFunction } from "../../../gen/router.ts";
+import { RendererService } from "../../service/renderer.service.ts";
 
 import "https://esm.sh/prismjs@1.27.0/components/prism-typescript?no-check";
 import "https://esm.sh/prismjs@1.27.0/components/prism-bash?no-check";

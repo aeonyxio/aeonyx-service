@@ -1,7 +1,7 @@
-import { injector } from "$injector/mod.ts";
-import { DataProvider } from "@/provider/data.ts";
-import { GetDocumentationSummaryFunction } from "$generated/router.ts";
-import { DocSummary } from "$generated/interfaces/common/DocSummary.ts";
+import { injector } from "../../../injector/mod.ts";
+import { DataProvider } from "../../provider/data.ts";
+import { GetDocumentationSummaryFunction } from "../../../gen/router.ts";
+import { DocSummary } from "../../../gen/interfaces/common/DocSummary.ts";
 
 export const getDocumentationSummary: GetDocumentationSummaryFunction =
   async () => {

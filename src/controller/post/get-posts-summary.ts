@@ -1,6 +1,6 @@
-import { injector } from "$injector/mod.ts";
-import { DataProvider } from "@/provider/data.ts";
-import { GetPostsSummaryFunction } from "$generated/router.ts";
+import { injector } from "../../../injector/mod.ts";
+import { DataProvider } from "../../provider/data.ts";
+import { GetPostsSummaryFunction } from "../../../gen/router.ts";
 
 export const getPostsSummary: GetPostsSummaryFunction = async () => {
   const data = injector.get(DataProvider);

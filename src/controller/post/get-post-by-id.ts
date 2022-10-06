@@ -1,7 +1,7 @@
-import { injector } from "$injector/mod.ts";
-import { DataProvider } from "@/provider/data.ts";
-import { GetPostByIdFunction } from "$generated/router.ts";
-import { RendererService } from "@/service/renderer.service.ts";
+import { injector } from "../../../injector/mod.ts";
+import { DataProvider } from "../../provider/data.ts";
+import { GetPostByIdFunction } from "../../../gen/router.ts";
+import { RendererService } from "../../service/renderer.service.ts";
 
 export const getPostById: GetPostByIdFunction = async ({ params }) => {
   const data = injector.get(DataProvider);

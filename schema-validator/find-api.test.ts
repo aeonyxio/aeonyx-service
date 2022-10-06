@@ -1,6 +1,6 @@
 import { findApi } from "./find-api.ts";
-import { describe, it } from "$testing/bdd.ts";
-import { expect } from "$chai";
+import { describe, it } from "https://deno.land/std@0.158.0/testing/bdd.ts";
+import { expect } from "https://cdn.skypack.dev/chai@4.3.4?dts";
 
 describe("find-api", () => {
   it("should successfully find root level api", () => {

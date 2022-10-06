@@ -1,4 +1,4 @@
-import { Application } from "@/app.ts";
+import { Application } from "./app.ts";
 
 const app = new Application();
 await app.init();

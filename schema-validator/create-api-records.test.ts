@@ -1,5 +1,5 @@
-import { describe, it } from "$testing/bdd.ts";
-import { expect } from "$chai";
+import { describe, it } from "https://deno.land/std@0.158.0/testing/bdd.ts";
+import { expect } from "https://cdn.skypack.dev/chai@4.3.4?dts";
 import { createApiRecords } from "./create-api-records.ts";
 import { Validator } from "./validator.ts";
 

@@ -1,7 +1,7 @@
 import {
   registerGetPostByIdFunction,
   registerGetPostsSummaryFunction,
-} from "$generated/router.ts";
+} from "../../../gen/router.ts";
 import { getPostById } from "./get-post-by-id.ts";
 import { getPostsSummary } from "./get-posts-summary.ts";
 

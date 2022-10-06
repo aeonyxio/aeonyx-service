@@ -1,11 +1,15 @@
-import { Collection, ObjectId, MongoClient } from "$mongo/mod.ts";
+import {
+  Collection,
+  ObjectId,
+  MongoClient,
+} from "https://deno.land/x/mongo@v0.31.1/mod.ts";
 import {
   DB_NAME,
   DB_PASSWORD,
   DB_PATH,
   DB_SEC_MECHANISM,
   DB_USER,
-} from "@/config.ts";
+} from "../config.ts";
 
 export interface PostSchema {
   _id?: ObjectId;

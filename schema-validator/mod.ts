@@ -1,6 +1,6 @@
-import { Application } from "$oak/mod.ts";
-import { getQuery } from "$oak/helpers.ts";
-import { join } from "$std/path/mod.ts";
+import { Application } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import { getQuery } from "https://deno.land/x/oak@v11.1.0/helpers.ts";
+import { join } from "https://deno.land/std@0.156.0/path/mod.ts";
 import { createApiRecords } from "./create-api-records.ts";
 import { findApi } from "./find-api.ts";
 import { Validator } from "./validator.ts";

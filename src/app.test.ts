@@ -1,8 +1,12 @@
-import { superoak } from "$superoak/mod.ts";
-import sinon from "$sinon";
-import { beforeAll, describe, it } from "$testing/bdd.ts";
-import { injector } from "$injector/mod.ts";
-import { DataProvider } from "@/provider/data.ts";
+import { superoak } from "https://deno.land/x/superoak@4.7.0/mod.ts";
+import sinon from "https://cdn.skypack.dev/sinon@12.0.1?dts";
+import {
+  beforeAll,
+  describe,
+  it,
+} from "https://deno.land/std@0.158.0/testing/bdd.ts";
+import { injector } from "../injector/mod.ts";
+import { DataProvider } from "./provider/data.ts";
 import { Application } from "./app.ts";
 
 const app = new Application();
