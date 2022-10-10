@@ -12,13 +12,22 @@ jobs:
           deno-version: v1.x # Run with latest stable Deno.
 
       # Check if the code is formatted according to Deno's default formatting conventions.
-      - run: deno fmt --check
+      - name: Check formatting
+        run: deno fmt --check
 
       # Scan the code for syntax errors and style issues. If
       # - run: deno lint
 
       # Run all test files in the repository and collect code coverage. The example
-      - run: deno test --allow-net --allow-read --allow-env --coverage=cov/
+      - name: Run tests
+        run: deno test --allow-net --allow-read --allow-env --coverage=cov/
 
       # This generates a report from the collected coverage in `deno test --coverage`. It is
-      - run: deno coverage --lcov cov/ > cov.lcov
+      - name: Create coverage report
+        run: deno coverage --lcov cov/ > cov/cov.lcov
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: cov/cov.lcov
