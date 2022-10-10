@@ -8,22 +8,23 @@ class Injector {
 
   inject<T>(storable: unknown, options?: InjectorOptions): void {
     const token = options?.token ?? storable;
-    const tokenStr =
-      typeof token === "string"
-        ? token
-        : (token as new (...args: unknown[]) => unknown).name;
+    const tokenStr = typeof token === "string"
+      ? token
+      : (token as new (...args: unknown[]) => unknown).name;
 
     if (
       tokenStr === undefined ||
       tokenStr === null ||
       typeof tokenStr !== "string"
-    )
+    ) {
       throw new Error("Token must be a uniquely identifiable string");
+    }
 
-    if (this.diMap.has(tokenStr) && !options?.override)
+    if (this.diMap.has(tokenStr) && !options?.override) {
       throw new Error(
-        "Cannot inject, this already exists. If you wish to override, use the 'override' option"
+        "Cannot inject, this already exists. If you wish to override, use the 'override' option",
       );
+    }
 
     try {
       const instance = new (storable as new (...args: unknown[]) => unknown)();

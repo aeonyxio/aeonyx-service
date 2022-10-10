@@ -11,15 +11,28 @@ import "https://esm.sh/prism-svelte@0.5.0?no-check";
 export const getDocumentationSection: GetDocumentationSectionFunction = async ({
   params,
 }) => {
+  const { documentationId, sectionId, subSectionId } = params;
   const data = injector.get(DataProvider);
   const renderer = injector.get(RendererService);
-  const docSection = await data.docSections.findOne({ id: params.id });
+  const doc = await data.docs.findOne({ id: documentationId });
+  const docSection = await data.docSections.findOne({
+    documentationId,
+    sectionId,
+    subSectionId,
+  });
 
-  if (docSection === undefined) {
+  if (doc === undefined || docSection === undefined) {
     throw new Error();
   }
 
+  const body = {
+    documentationTitle: doc.title,
+    sectionTitle: doc.sections[sectionId].title,
+    subSectionTitle: doc.sections[sectionId].subSections[subSectionId].title,
+    html: renderer.render(docSection.markdown),
+  };
+
   return {
-    body: renderer.render(docSection.markdown),
+    body,
   };
 };

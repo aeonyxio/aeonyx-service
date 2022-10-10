@@ -6,10 +6,7 @@ describe("find-api", () => {
   it("should successfully find root level api", () => {
     const pathParams = {};
     const result = findApi(
-      "/"
-        .substring(1)
-        .split("/")
-        .filter((section) => section !== ""),
+      [],
       {
         children: {
           post: {
@@ -36,7 +33,7 @@ describe("find-api", () => {
           GET: {},
         },
       },
-      pathParams
+      pathParams,
     );
 
     expect(result.definition).to.deep.equal({ GET: {} });
@@ -76,7 +73,7 @@ describe("find-api", () => {
           GET: {},
         },
       },
-      pathParams
+      pathParams,
     );
 
     expect(result.definition).to.deep.equal({
@@ -87,13 +84,106 @@ describe("find-api", () => {
     expect(pathParams).to.deep.equal({ id: "duck" });
   });
 
+  it("should successfully api with multiple params", () => {
+    const pathParams = {};
+    const result = findApi(
+      "/doc/duck/chicken/pizza".substring(1).split("/"),
+      {
+        children: {
+          doc: {
+            children: {
+              "*": {
+                children: {
+                  "*": {
+                    children: {
+                      "*": {
+                        children: {},
+                        param: "subSectionId",
+                        definition: {
+                          GET: {
+                            pathParams:
+                              "path:/doc/:documentationId/:sectionId/:subSectionId|method:GET|pathParams",
+                          },
+                        },
+                      },
+                    },
+                    param: "sectionId",
+                  },
+                },
+                param: "documentationId",
+              },
+            },
+          },
+        },
+      },
+      pathParams,
+    );
+
+    expect(result.definition).to.deep.equal({
+      GET: {
+        pathParams:
+          "path:/doc/:documentationId/:sectionId/:subSectionId|method:GET|pathParams",
+      },
+    });
+    expect(pathParams).to.deep.equal({
+      documentationId: "duck",
+      sectionId: "chicken",
+      subSectionId: "pizza",
+    });
+  });
+
+  it("should successfully api with multiple empty params", () => {
+    const pathParams = {};
+    const result = findApi(
+      "/doc///".substring(1).split("/"),
+      {
+        children: {
+          doc: {
+            children: {
+              "*": {
+                children: {
+                  "*": {
+                    children: {
+                      "*": {
+                        children: {},
+                        param: "subSectionId",
+                        definition: {
+                          GET: {
+                            pathParams:
+                              "path:/doc/:documentationId/:sectionId/:subSectionId|method:GET|pathParams",
+                          },
+                        },
+                      },
+                    },
+                    param: "sectionId",
+                  },
+                },
+                param: "documentationId",
+              },
+            },
+          },
+        },
+      },
+      pathParams,
+    );
+
+    expect(result.definition).to.deep.equal({
+      GET: {
+        pathParams:
+          "path:/doc/:documentationId/:sectionId/:subSectionId|method:GET|pathParams",
+      },
+    });
+    expect(pathParams).to.deep.equal({
+      documentationId: "",
+      sectionId: "",
+      subSectionId: "",
+    });
+  });
+
   it("should successfully standard api", () => {
     const pathParams = {};
     const result = findApi(
-      "/post"
-        .substring(1)
-        .split("/")
-        .filter((section) => section !== ""),
+      "/post".substring(1).split("/"),
       {
         children: {
           post: {
@@ -120,7 +210,7 @@ describe("find-api", () => {
           GET: {},
         },
       },
-      pathParams
+      pathParams,
     );
 
     expect(result.definition).to.deep.equal({

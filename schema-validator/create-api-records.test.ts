@@ -82,7 +82,7 @@ describe("create-api-records", () => {
           },
         },
       },
-      new Validator()
+      new Validator(),
     );
 
     expect(result).to.deep.equal({
@@ -109,6 +109,72 @@ describe("create-api-records", () => {
       },
       definition: {
         GET: {},
+      },
+    });
+  });
+  it("should work with multiple path params", () => {
+    const result = createApiRecords(
+      {
+        paths: {
+          "/doc/:documentationId/:sectionId/:subSectionId": {
+            get: {
+              tags: ["doc"],
+              description: "Get a specific documentation section",
+              operationId: "getDocumentationSection",
+              pathParams: {
+                type: "object",
+                properties: {
+                  documentationId: {
+                    pattern: "^[a-z0-9-]+$",
+                    type: "string",
+                  },
+                  sectionId: {
+                    pattern: "^[a-z0-9-]+$",
+                    type: "string",
+                  },
+                  subSectionId: {
+                    pattern: "^[a-z0-9-]+$",
+                    type: "string",
+                  },
+                },
+                required: ["documentationId", "sectionId", "subSectionId"],
+              },
+              responseBody: {
+                $ref: "objects.json#/Documentation",
+              },
+            },
+          },
+        },
+      },
+      new Validator(),
+    );
+
+    expect(result).to.deep.equal({
+      children: {
+        doc: {
+          children: {
+            "*": {
+              children: {
+                "*": {
+                  children: {
+                    "*": {
+                      children: {},
+                      param: "subSectionId",
+                      definition: {
+                        GET: {
+                          pathParams:
+                            "path:/doc/:documentationId/:sectionId/:subSectionId|method:GET|pathParams",
+                        },
+                      },
+                    },
+                  },
+                  param: "sectionId",
+                },
+              },
+              param: "documentationId",
+            },
+          },
+        },
       },
     });
   });

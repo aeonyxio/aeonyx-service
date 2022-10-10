@@ -14,7 +14,7 @@
       "thumbnail": {
         "type": "string"
       },
-      "markdown": {
+      "html": {
         "type": "string"
       },
       "author": {
@@ -30,7 +30,17 @@
         "type": "string",
         "format": "date-time"
       }
-    }
+    },
+    "required": [
+      "id",
+      "title",
+      "description",
+      "thumbnail",
+      "html",
+      "author",
+      "tags",
+      "date"
+    ]
   },
   "PostsSummary": {
     "type": "array",
@@ -62,7 +72,16 @@
           "type": "string",
           "format": "date-time"
         }
-      }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "thumbnail",
+        "author",
+        "tags",
+        "date"
+      ]
     }
   },
   "Author": {
@@ -80,16 +99,14 @@
       "thumbnail": {
         "type": "string"
       }
-    }
+    },
+    "required": ["name", "youtube", "description", "thumbnail"]
   },
-  "DocSummary": {
+  "DocumentationSummary": {
     "type": "object",
     "additionalProperties": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
         "title": {
           "type": "string"
         },
@@ -112,13 +129,39 @@
                     "title": {
                       "type": "string"
                     }
-                  }
+                  },
+                  "required": ["title"]
                 }
               }
-            }
+            },
+            "required": ["title", "subSections"]
           }
         }
-      }
+      },
+      "required": ["title", "default", "sections"]
     }
+  },
+  "Documentation": {
+    "type": "object",
+    "properties": {
+      "documentationTitle": {
+        "type": "string"
+      },
+      "sectionTitle": {
+        "type": "string"
+      },
+      "subSectionTitle": {
+        "type": "string"
+      },
+      "html": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "documentationTitle",
+      "sectionTitle",
+      "subSectionTitle",
+      "html"
+    ]
   }
 }

@@ -7,7 +7,7 @@ import { Validator } from "./validator.ts";
 
 export const registerSchemaValidator = async (
   app: Application,
-  schemaDirPath: string
+  schemaDirPath: string,
 ) => {
   const validator = new Validator();
   const apiSchemaFile = join(schemaDirPath, "api.json");
@@ -15,10 +15,9 @@ export const registerSchemaValidator = async (
   const apis = createApiRecords(apiSchema, validator);
 
   app.use(async (context, next) => {
-    const sections = context.request.url.pathname
-      .substring(1)
-      .split("/")
-      .filter((section) => section !== "");
+    const sections = context.request.url.pathname === "/"
+      ? []
+      : context.request.url.pathname.substring(1).split("/");
 
     const pathParams: Record<string, string> = {};
     const definition = findApi(sections, apis, pathParams).definition[
@@ -28,6 +27,7 @@ export const registerSchemaValidator = async (
     if (definition.pathParams) {
       const valid = validator.ajv.validate(definition.pathParams, pathParams);
       if (!valid) {
+        console.log("woops", definition, pathParams);
         context.response.status = 400;
         context.response.body = { errorText: validator.ajv.errorsText() };
         return;
@@ -37,7 +37,7 @@ export const registerSchemaValidator = async (
     if (definition.queryParams) {
       const valid = validator.ajv.validate(
         definition.queryParams,
-        getQuery(context)
+        getQuery(context),
       );
       if (!valid) {
         context.response.body = valid;
@@ -48,7 +48,7 @@ export const registerSchemaValidator = async (
     if (definition.requestHeaders) {
       const valid = validator.ajv.validate(
         definition.requestHeaders,
-        context.request.headers
+        context.request.headers,
       );
       if (!valid) {
         context.response.body = valid;
@@ -59,7 +59,7 @@ export const registerSchemaValidator = async (
     if (definition.requestBody) {
       const valid = validator.ajv.validate(
         definition.requestBody,
-        context.request.body
+        context.request.body,
       );
       if (!valid) {
         context.response.body = valid;

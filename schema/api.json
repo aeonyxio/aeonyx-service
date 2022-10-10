@@ -47,6 +47,14 @@
         "summary": "Get a summary of blog posts",
         "description": "Get a summary of blog posts",
         "operationId": "getPostsSummary",
+        "queryParams": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "string"
+            }
+          }
+        },
         "responseBody": {
           "$ref": "objects.json#/PostsSummary"
         }
@@ -58,11 +66,11 @@
         "description": "Get a summary of documentation",
         "operationId": "getDocumentationSummary",
         "responseBody": {
-          "$ref": "objects.json#/DocSummary"
+          "$ref": "objects.json#/DocumentationSummary"
         }
       }
     },
-    "/doc/:id": {
+    "/doc/:documentationId/:sectionId/:subSectionId": {
       "get": {
         "tags": ["doc"],
         "description": "Get a specific documentation section",
@@ -70,15 +78,23 @@
         "pathParams": {
           "type": "object",
           "properties": {
-            "id": {
-              "pattern": "^[a-z0-9-|]+$",
+            "documentationId": {
+              "pattern": "^[a-z0-9-]+$",
+              "type": "string"
+            },
+            "sectionId": {
+              "pattern": "^[a-z0-9-]+$",
+              "type": "string"
+            },
+            "subSectionId": {
+              "pattern": "^[a-z0-9-]+$",
               "type": "string"
             }
           },
-          "required": ["id"]
+          "required": ["documentationId", "sectionId", "subSectionId"]
         },
         "responseBody": {
-          "type": "string"
+          "$ref": "objects.json#/Documentation"
         }
       }
     }

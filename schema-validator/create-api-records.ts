@@ -57,14 +57,16 @@ export const createApiRecords = (rawJson: any, validator: Validator) => {
         section.startsWith(":") ? "*" : section
       ] ?? { children: {} };
 
+      if (section.startsWith(":")) {
+        child.param = section.substring(1);
+      }
+
       if (sections.length === 0) {
         child.definition = createDefinition(
           rawJson.paths[path],
           path,
-          validator
+          validator,
         );
-
-        if (section.startsWith(":")) child.param = section.substring(1);
       }
       record.children[section.startsWith(":") ? "*" : section] = child;
       record = child;

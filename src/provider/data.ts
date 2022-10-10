@@ -1,7 +1,7 @@
 import {
   Collection,
-  ObjectId,
   MongoClient,
+  ObjectId,
 } from "https://deno.land/x/mongo@v0.31.1/mod.ts";
 import {
   DB_NAME,
@@ -52,7 +52,9 @@ export interface DocSchema {
 
 export interface DocSectionSchema {
   _id?: ObjectId;
-  id: string;
+  documentationId: string;
+  sectionId: string;
+  subSectionId: string;
   markdown: string;
 }
 
@@ -65,7 +67,7 @@ export class DataProvider {
   async init() {
     const client = new MongoClient();
     await client.connect(
-      `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_PATH}?authMechanism=${DB_SEC_MECHANISM}`
+      `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_PATH}?authMechanism=${DB_SEC_MECHANISM}`,
     );
     const db = client.database(DB_NAME);
     this.posts = db.collection<PostSchema>("posts");

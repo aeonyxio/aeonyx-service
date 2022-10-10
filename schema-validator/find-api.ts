@@ -4,11 +4,11 @@ export const findApi = (
   remainingSections: string[],
   record: ApiDefinition,
   params: Record<string, string>,
-  paramValue?: string
+  paramValue?: string,
 ): ApiDefinition => {
   const currSection = remainingSections.shift();
   if (record.param) params[record.param] = paramValue!;
-  if (currSection) {
+  if (currSection !== undefined) {
     if (record.children[currSection!]) {
       return findApi(remainingSections, record.children[currSection!], params);
     } else {
@@ -16,7 +16,7 @@ export const findApi = (
         remainingSections,
         record.children["*"],
         params,
-        currSection
+        currSection,
       );
     }
   } else {

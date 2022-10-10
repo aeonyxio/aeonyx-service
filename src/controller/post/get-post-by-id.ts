@@ -25,7 +25,7 @@ export const getPostById: GetPostByIdFunction = async ({ params }) => {
       description: post.description,
       thumbnail: post.thumbnail,
       tags: post.tags,
-      markdown: renderer.render(post.markdown),
+      html: renderer.render(post.markdown),
       date: post.date.toISOString(),
       author: {
         name: author.id,

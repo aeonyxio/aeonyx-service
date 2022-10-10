@@ -1,1 +1,2 @@
-import {DocSummary} from '../../common/DocSummary.ts';export type GetDocumentationSummaryResponseDto = DocSummary;
+import type { DocumentationSummary } from "../../common/DocumentationSummary.ts";
+export type GetDocumentationSummaryResponseDto = DocumentationSummary;

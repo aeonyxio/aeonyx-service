@@ -17,7 +17,7 @@ describe("Integration tests", () => {
       {
         init: sinon.stub(),
       },
-      { token: DataProvider }
+      { token: DataProvider },
     );
     await app.init();
   });
@@ -40,7 +40,7 @@ describe("Integration tests", () => {
       {
         posts: { find: sinon.stub(() => ({ toArray: () => posts })) },
       },
-      { token: DataProvider, override: true }
+      { token: DataProvider, override: true },
     );
 
     const request = await superoak(app.app);
@@ -55,6 +55,7 @@ describe("Integration tests", () => {
           thumbnail: "/image.png",
           author: "author-id",
           tags: ["these", "are", "tags"],
+          date: "2022-10-02T14:51:31.406Z",
         },
       ]);
   });
@@ -97,7 +98,7 @@ describe("Integration tests", () => {
       {
         docs: { find: sinon.stub(() => ({ toArray: () => docs })) },
       },
-      { token: DataProvider, override: true }
+      { token: DataProvider, override: true },
     );
 
     const request = await superoak(app.app);
@@ -137,23 +138,41 @@ describe("Integration tests", () => {
   });
 
   it("should return a specific documentation section", async () => {
+    const doc = {
+      id: "doc",
+      title: "Test title 1.",
+      default: "value",
+      sections: {
+        section: {
+          title: "Test title 2.",
+          subSections: {
+            "sub-section": {
+              title: "Test title 3.",
+            },
+          },
+        },
+      },
+    };
     const docSection = {
-      id: "test-id",
+      id: "doc--section--sub-section",
       markdown: "## Heading",
     };
 
     injector.inject(
       {
+        docs: { findOne: sinon.stub(() => doc) },
         docSections: { findOne: sinon.stub(() => docSection) },
       },
-      { token: DataProvider, override: true }
+      { token: DataProvider, override: true },
     );
 
     const request = await superoak(app.app);
-    await request
-      .get("/doc/doc|section|sub-section")
-      .expect(200)
-      .expect('<h2 id="heading">Heading</h2>\n');
+    await request.get("/doc/doc/section/sub-section").expect(200).expect({
+      documentationTitle: "Test title 1.",
+      sectionTitle: "Test title 2.",
+      subSectionTitle: "Test title 3.",
+      html: '<h2 id="heading">Heading</h2>\n',
+    });
   });
 
   it("should return a specific post", async () => {
@@ -179,7 +198,7 @@ describe("Integration tests", () => {
         posts: { findOne: sinon.stub(() => post) },
         authors: { findOne: sinon.stub(() => author) },
       },
-      { token: DataProvider, override: true }
+      { token: DataProvider, override: true },
     );
 
     const request = await superoak(app.app);
@@ -192,7 +211,7 @@ describe("Integration tests", () => {
         description: "test desacription!",
         thumbnail: "/image.png",
         tags: ["these", "are", "tags"],
-        markdown: '<h2 id="heading">Heading</h2>\n',
+        html: '<h2 id="heading">Heading</h2>\n',
         date: "2022-10-02T14:51:31.406Z",
         author: {
           name: "author-id",

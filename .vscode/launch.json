@@ -15,8 +15,6 @@
         "--inspect-brk",
         "-A",
         "--allow-read",
-        "--config",
-        "config.json",
         "${workspaceFolder}/src/main.ts"
       ],
       "attachSimplePort": 9229
@@ -27,15 +25,7 @@
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "C:\\ProgramData\\chocolatey\\bin\\deno.EXE",
-      "runtimeArgs": [
-        "test",
-        "--inspect-brk",
-        "-A",
-        "--allow-read",
-        "--config",
-        "config.json",
-        "${file}"
-      ],
+      "runtimeArgs": ["test", "--inspect-brk", "-A", "--allow-read", "${file}"],
       "attachSimplePort": 9229
     }
   ]
