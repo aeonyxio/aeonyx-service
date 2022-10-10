@@ -15,7 +15,7 @@ jobs:
       - run: deno fmt --check
 
       # Scan the code for syntax errors and style issues. If
-      - run: deno lint
+      # - run: deno lint
 
       # Run all test files in the repository and collect code coverage. The example
       - run: deno test --allow-net --allow-read --allow-env --coverage=cov/
