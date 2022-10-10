@@ -1,9 +1,9 @@
-name: Upload
+name: QA
 
 on: push
 
 jobs:
-  build:
+  check-quality:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
