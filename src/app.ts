@@ -6,7 +6,7 @@ import { PostController } from "./controller/post/controller.ts";
 import { DocController } from "./controller/doc/controller.ts";
 import { DataProvider } from "./provider/data.ts";
 import { injector } from "../injector/mod.ts";
-import { join } from "https://deno.land/std@0.156.0/path/win32.ts";
+import { join } from "https://deno.land/std@0.156.0/path/mod.ts";
 
 export class Application {
   app: OakApplication;
@@ -21,8 +21,8 @@ export class Application {
     injector.get(DocController).init();
 
     registerSchemaValidator(this.app, [
-      JSON.parse(await Deno.readTextFile(join("../schema", "api.json"))),
-      JSON.parse(await Deno.readTextFile(join("../schema", "objects.json"))),
+      JSON.parse(await Deno.readTextFile(join("schema", "api.json"))),
+      JSON.parse(await Deno.readTextFile(join("schema", "objects.json"))),
     ]);
 
     this.app.use(router.routes());
@@ -31,7 +31,7 @@ export class Application {
       console.log(
         `Listening on: ${secure ? "https://" : "http://"}${
           hostname ?? "localhost"
-        }:${port}`,
+        }:${port}`
       );
     });
   }
