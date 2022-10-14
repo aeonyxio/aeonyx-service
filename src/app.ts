@@ -7,6 +7,7 @@ import { DocController } from "./controller/doc/controller.ts";
 import { DataProvider } from "./provider/data.ts";
 import { injector } from "../injector/mod.ts";
 import { join } from "https://deno.land/std@0.156.0/path/win32.ts";
+import { arrayFromAsyncIterable } from "./array-from-async-iterable.ts";
 
 export class Application {
   app: OakApplication;
@@ -20,7 +21,16 @@ export class Application {
     injector.get(PostController).init();
     injector.get(DocController).init();
 
-    await registerSchemaValidator(this.app, join("./schema"));
+    const schemas = (
+      await Promise.all(
+        (
+          await arrayFromAsyncIterable(Deno.readDir("schema"))
+        ).map((file) => Deno.readTextFile(join("schema", file.name))),
+      )
+    ).map((i) => JSON.parse(i));
+
+    registerSchemaValidator(this.app, schemas);
+
     this.app.use(router.routes());
     this.app.use(router.allowedMethods());
     // this.app.addEventListener("listen", ({ hostname, port, secure }) => {

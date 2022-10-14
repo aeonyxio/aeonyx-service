@@ -6,7 +6,7 @@ import { RendererService } from "../../service/renderer.service.ts";
 export const getPostById: GetPostByIdFunction = async ({ params }) => {
   const data = injector.get(DataProvider);
   const renderer = injector.get(RendererService);
-  const post = await data.posts.findOne({ id: params.id });
+  const post = await data.posts.findOne({ id: params.id, hidden: false });
 
   if (post === undefined) {
     throw new Error();

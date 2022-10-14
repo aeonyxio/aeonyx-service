@@ -21,5 +21,5 @@ deno install -r -f -n api-gen --allow-read --allow-write https://raw.githubuserc
 ## Run api-gen
 
 ```bash
-api-gen deno-oak-server --force gen ./schema/api.json ./schema/objects.json
+api-gen deno-oak-server --force gen ./schema/api.json ./schema/objects.json --oakImport https://deno.land/x/oak@v11.1.0
 ```

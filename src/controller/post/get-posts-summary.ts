@@ -4,7 +4,9 @@ import { GetPostsSummaryFunction } from "../../../gen/router.ts";
 
 export const getPostsSummary: GetPostsSummaryFunction = async ({ query }) => {
   const data = injector.get(DataProvider);
-  const search: { author?: string } = {};
+  const search: { author?: string; hidden: false } = {
+    hidden: false,
+  };
   if (query.author) search.author = query.author;
   const posts = await data.posts.find(search).toArray();
   return {

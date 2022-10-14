@@ -37,7 +37,7 @@
           "required": ["id"]
         },
         "responseBody": {
-          "$ref": "objects.json#/Post"
+          "$ref": "objects#Post"
         }
       }
     },
@@ -56,7 +56,7 @@
           }
         },
         "responseBody": {
-          "$ref": "objects.json#/PostsSummary"
+          "$ref": "objects#PostsSummary"
         }
       }
     },
@@ -66,7 +66,15 @@
         "description": "Get a summary of documentation",
         "operationId": "getDocumentationSummary",
         "responseBody": {
-          "$ref": "objects.json#/DocumentationSummary"
+          "$ref": "objects#DocumentationSummary"
+        },
+        "queryParams": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -94,7 +102,7 @@
           "required": ["documentationId", "sectionId", "subSectionId"]
         },
         "responseBody": {
-          "$ref": "objects.json#/Documentation"
+          "$ref": "objects#Documentation"
         }
       }
     }

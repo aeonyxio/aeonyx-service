@@ -21,6 +21,9 @@ export interface PostSchema {
   tags: string[];
   author: string;
   date: Date;
+  hidden: boolean;
+  syncedOn: Date;
+  updatedOn: Date;
 }
 
 export interface AuthorSchema {
@@ -29,6 +32,8 @@ export interface AuthorSchema {
   youtube: string;
   description: string;
   thumbnail: string;
+  syncedOn: Date;
+  updatedOn: Date;
 }
 
 export interface DocSchema {
@@ -48,6 +53,10 @@ export interface DocSchema {
       >;
     }
   >;
+  authors: string[];
+  hidden: boolean;
+  syncedOn: Date;
+  updatedOn: Date;
 }
 
 export interface DocSectionSchema {
@@ -56,6 +65,8 @@ export interface DocSectionSchema {
   sectionId: string;
   subSectionId: string;
   markdown: string;
+  syncedOn: Date;
+  updatedOn: Date;
 }
 
 export class DataProvider {

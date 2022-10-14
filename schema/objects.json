@@ -1,167 +1,172 @@
 {
-  "Post": {
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "string"
+  "components": {
+    "referenceId": "objects",
+    "definitions": {
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          },
+          "author": {
+            "$ref": "objects#Author"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "thumbnail",
+          "html",
+          "author",
+          "tags",
+          "date"
+        ]
       },
-      "title": {
-        "type": "string"
-      },
-      "description": {
-        "type": "string"
-      },
-      "thumbnail": {
-        "type": "string"
-      },
-      "html": {
-        "type": "string"
-      },
-      "author": {
-        "$ref": "objects.json#/Author"
-      },
-      "tags": {
+      "PostsSummary": {
         "type": "array",
         "items": {
-          "type": "string"
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "thumbnail": {
+              "type": "string"
+            },
+            "author": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "date": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "description",
+            "thumbnail",
+            "author",
+            "tags",
+            "date"
+          ]
         }
       },
-      "date": {
-        "type": "string",
-        "format": "date-time"
-      }
-    },
-    "required": [
-      "id",
-      "title",
-      "description",
-      "thumbnail",
-      "html",
-      "author",
-      "tags",
-      "date"
-    ]
-  },
-  "PostsSummary": {
-    "type": "array",
-    "items": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "thumbnail": {
-          "type": "string"
-        },
-        "author": {
-          "type": "string"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
+      "Author": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "youtube": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "thumbnail": {
             "type": "string"
           }
         },
-        "date": {
-          "type": "string",
-          "format": "date-time"
-        }
+        "required": ["name", "youtube", "description", "thumbnail"]
       },
-      "required": [
-        "id",
-        "title",
-        "description",
-        "thumbnail",
-        "author",
-        "tags",
-        "date"
-      ]
-    }
-  },
-  "Author": {
-    "type": "object",
-    "properties": {
-      "name": {
-        "type": "string"
-      },
-      "youtube": {
-        "type": "string"
-      },
-      "description": {
-        "type": "string"
-      },
-      "thumbnail": {
-        "type": "string"
-      }
-    },
-    "required": ["name", "youtube", "description", "thumbnail"]
-  },
-  "DocumentationSummary": {
-    "type": "object",
-    "additionalProperties": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "default": {
-          "type": "string"
-        },
-        "sections": {
+      "DocumentationSummary": {
+        "type": "object",
+        "additionalProperties": {
           "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "title": {
-                "type": "string"
-              },
-              "subSections": {
-                "type": "object",
-                "additionalProperties": {
-                  "type": "object",
-                  "properties": {
-                    "title": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["title"]
-                }
-              }
+          "properties": {
+            "title": {
+              "type": "string"
             },
-            "required": ["title", "subSections"]
-          }
+            "default": {
+              "type": "string"
+            },
+            "sections": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "subSections": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["title"]
+                    }
+                  }
+                },
+                "required": ["title", "subSections"]
+              }
+            }
+          },
+          "required": ["title", "default", "sections"]
         }
       },
-      "required": ["title", "default", "sections"]
-    }
-  },
-  "Documentation": {
-    "type": "object",
-    "properties": {
-      "documentationTitle": {
-        "type": "string"
-      },
-      "sectionTitle": {
-        "type": "string"
-      },
-      "subSectionTitle": {
-        "type": "string"
-      },
-      "html": {
-        "type": "string"
+      "Documentation": {
+        "type": "object",
+        "properties": {
+          "documentationTitle": {
+            "type": "string"
+          },
+          "sectionTitle": {
+            "type": "string"
+          },
+          "subSectionTitle": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "documentationTitle",
+          "sectionTitle",
+          "subSectionTitle",
+          "html"
+        ]
       }
-    },
-    "required": [
-      "documentationTitle",
-      "sectionTitle",
-      "subSectionTitle",
-      "html"
-    ]
+    }
   }
 }

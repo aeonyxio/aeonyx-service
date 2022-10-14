@@ -1,8 +1,13 @@
-import type { ApiDefinition } from "./api-definition.type.ts";
+import type { ApiDefinition, ApiDetails } from "./api-definition.type.ts";
+import { Path, Specification } from "./specification.ts";
 import { Validator } from "./validator.ts";
 
-const createDefinition = (schema: any, path: string, validator: Validator) => {
-  const ret: Record<string, Record<string, string>> = {};
+const createDefinition = (
+  schema: Path,
+  path: string,
+  validator: Validator,
+): ApiDetails => {
+  const ret: ApiDetails = {};
   for (const method of Object.getOwnPropertyNames(schema)) {
     const upperMethod = method.toUpperCase();
     ret[upperMethod] = {};
@@ -35,41 +40,64 @@ const createDefinition = (schema: any, path: string, validator: Validator) => {
   return ret;
 };
 
-export const createApiRecords = (rawJson: any, validator: Validator) => {
+export const createApiRecords = (
+  schemas: Specification[],
+  validator: Validator,
+) => {
   const apis: ApiDefinition = { children: {} };
 
-  for (const path of Object.getOwnPropertyNames(rawJson.paths)) {
-    const sections = path
-      .substring(1)
-      .split("/")
-      .filter((section) => section !== "");
+  for (const schema of schemas) {
+    if (schema.paths) {
+      for (const path of Object.getOwnPropertyNames(schema.paths)) {
+        const sections = path
+          .substring(1)
+          .split("/")
+          .filter((section) => section !== "");
 
-    let record = apis;
+        let record = apis;
 
-    if (!sections.length) {
-      apis.definition = createDefinition(rawJson.paths[path], path, validator);
-    }
+        if (!sections.length) {
+          apis.definition = createDefinition(
+            schema.paths[path],
+            path,
+            validator,
+          );
+        }
 
-    while (sections.length) {
-      const section = sections.shift()!;
+        while (sections.length) {
+          const section = sections.shift()!;
 
-      const child = record.children[
-        section.startsWith(":") ? "*" : section
-      ] ?? { children: {} };
+          const child = record.children[
+            section.startsWith(":") ? "*" : section
+          ] ?? { children: {} };
 
-      if (section.startsWith(":")) {
-        child.param = section.substring(1);
+          if (section.startsWith(":")) {
+            child.param = section.substring(1);
+          }
+
+          if (sections.length === 0) {
+            child.definition = createDefinition(
+              schema.paths[path],
+              path,
+              validator,
+            );
+          }
+          record.children[section.startsWith(":") ? "*" : section] = child;
+          record = child;
+        }
       }
-
-      if (sections.length === 0) {
-        child.definition = createDefinition(
-          rawJson.paths[path],
-          path,
-          validator,
+    }
+    if (schema.components) {
+      for (
+        const defName of Object.getOwnPropertyNames(
+          schema.components.definitions,
+        )
+      ) {
+        validator.ajv.addSchema(
+          schema.components.definitions[defName],
+          `${schema.components.referenceId}#${defName}`,
         );
       }
-      record.children[section.startsWith(":") ? "*" : section] = child;
-      record = child;
     }
   }
 

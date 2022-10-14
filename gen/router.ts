@@ -4,11 +4,14 @@ import type { GetPostByIdPathParams } from "./interfaces/operations/getPostById/
 import type { GetPostByIdResponseDto } from "./interfaces/operations/getPostById/response-body.ts";
 import type { GetPostsSummaryQueryParams } from "./interfaces/operations/getPostsSummary/query-params.ts";
 import type { GetPostsSummaryResponseDto } from "./interfaces/operations/getPostsSummary/response-body.ts";
+import type { GetDocumentationSummaryQueryParams } from "./interfaces/operations/getDocumentationSummary/query-params.ts";
 import type { GetDocumentationSummaryResponseDto } from "./interfaces/operations/getDocumentationSummary/response-body.ts";
 import type { GetDocumentationSectionPathParams } from "./interfaces/operations/getDocumentationSection/path-params.ts";
 import type { GetDocumentationSectionResponseDto } from "./interfaces/operations/getDocumentationSection/response-body.ts";
 
-export type GetPostByIdFunction = (args: { params: GetPostByIdPathParams }) =>
+export type GetPostByIdFunction = (args: {
+  params: GetPostByIdPathParams;
+}) =>
   | {
     body: GetPostByIdResponseDto;
     status?: number;
@@ -40,7 +43,9 @@ export const registerGetPostsSummaryFunction = (
   getPostsSummary = fn;
 };
 
-export type GetDocumentationSummaryFunction = (args: Record<never, never>) =>
+export type GetDocumentationSummaryFunction = (args: {
+  query: GetDocumentationSummaryQueryParams;
+}) =>
   | {
     body: GetDocumentationSummaryResponseDto;
     status?: number;
@@ -105,7 +110,9 @@ router
       context.response.status = 501;
       return;
     }
-    const res = await getDocumentationSummary({});
+    const res = await getDocumentationSummary({
+      query: getQuery(context) as GetDocumentationSummaryQueryParams,
+    });
     context.response.body = res.body;
     if (res?.status !== undefined) context.response.status = res.status;
   })
