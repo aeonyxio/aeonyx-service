@@ -1,4 +1,5 @@
 import { Application as OakApplication } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import logger from "https://deno.land/x/oak_logger@1.0.0/mod.ts";
 import { router } from "../gen/router.ts";
 import { registerSchemaValidator } from "../schema-validator/mod.ts";
 import { PORT } from "./config.ts";
@@ -25,6 +26,8 @@ export class Application {
       JSON.parse(await Deno.readTextFile(join("schema", "objects.json"))),
     ]);
 
+    this.app.use(logger.logger);
+    this.app.use(logger.responseTime);
     this.app.use(router.routes());
     this.app.use(router.allowedMethods());
     this.app.addEventListener("listen", ({ hostname, port, secure }) => {
