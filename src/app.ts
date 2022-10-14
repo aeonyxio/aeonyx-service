@@ -31,7 +31,7 @@ export class Application {
       console.log(
         `Listening on: ${secure ? "https://" : "http://"}${
           hostname ?? "localhost"
-        }:${port}`
+        }:${port}`,
       );
     });
   }
