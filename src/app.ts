@@ -22,8 +22,8 @@ export class Application {
     injector.get(DocController).init();
 
     registerSchemaValidator(this.app, [
-      JSON.parse(await Deno.readTextFile(join("schema", "api.json"))),
-      JSON.parse(await Deno.readTextFile(join("schema", "objects.json"))),
+      JSON.parse(await Deno.readTextFile(join("./schema", "api.json"))),
+      JSON.parse(await Deno.readTextFile(join("./schema", "objects.json"))),
     ]);
 
     this.app.use(router.routes());
