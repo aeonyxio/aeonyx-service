@@ -7,7 +7,6 @@ import { DocController } from "./controller/doc/controller.ts";
 import { DataProvider } from "./provider/data.ts";
 import { injector } from "../injector/mod.ts";
 import { join } from "https://deno.land/std@0.156.0/path/win32.ts";
-import { arrayFromAsyncIterable } from "./array-from-async-iterable.ts";
 
 export class Application {
   app: OakApplication;
