@@ -18,6 +18,8 @@ export const getPostById: GetPostByIdFunction = async ({ params }) => {
     throw new Error();
   }
 
+  const rendered = renderer.render(post.markdown);
+
   return {
     body: {
       id: post.id,
@@ -25,7 +27,8 @@ export const getPostById: GetPostByIdFunction = async ({ params }) => {
       description: post.description,
       thumbnail: post.thumbnail,
       tags: post.tags,
-      html: renderer.render(post.markdown),
+      contents: rendered.contents,
+      html: rendered.html,
       date: post.date.toISOString(),
       author: {
         name: author.id,

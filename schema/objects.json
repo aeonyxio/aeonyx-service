@@ -17,6 +17,9 @@
           "thumbnail": {
             "type": "string"
           },
+          "contents": {
+            "$ref": "objects#Contents"
+          },
           "html": {
             "type": "string"
           },
@@ -39,6 +42,7 @@
           "title",
           "description",
           "thumbnail",
+          "contents",
           "html",
           "author",
           "tags",
@@ -156,6 +160,9 @@
           "subSectionTitle": {
             "type": "string"
           },
+          "contents": {
+            "$ref": "objects#Contents"
+          },
           "html": {
             "type": "string"
           }
@@ -164,8 +171,27 @@
           "documentationTitle",
           "sectionTitle",
           "subSectionTitle",
+          "contents",
           "html"
         ]
+      },
+      "Contents": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "number"
+            },
+            "heading": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": ["level", "heading", "id"]
+        }
       }
     }
   }

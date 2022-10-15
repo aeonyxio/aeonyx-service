@@ -167,12 +167,16 @@ describe("Integration tests", () => {
     );
 
     const request = await superoak(app.app);
-    await request.get("/doc/doc/section/sub-section").expect(200).expect({
-      documentationTitle: "Test title 1.",
-      sectionTitle: "Test title 2.",
-      subSectionTitle: "Test title 3.",
-      html: '<h2 id="heading">Heading</h2>\n',
-    });
+    await request
+      .get("/doc/doc/section/sub-section")
+      .expect(200)
+      .expect({
+        documentationTitle: "Test title 1.",
+        sectionTitle: "Test title 2.",
+        subSectionTitle: "Test title 3.",
+        contents: [{ level: 2, heading: "Heading", id: "heading" }],
+        html: '<h2 id="heading">Heading</h2>',
+      });
   });
 
   it("should return a specific post", async () => {
@@ -211,7 +215,8 @@ describe("Integration tests", () => {
         description: "test desacription!",
         thumbnail: "/image.png",
         tags: ["these", "are", "tags"],
-        html: '<h2 id="heading">Heading</h2>\n',
+        contents: [{ level: 2, heading: "Heading", id: "heading" }],
+        html: '<h2 id="heading">Heading</h2>',
         date: "2022-10-02T14:51:31.406Z",
         author: {
           name: "author-id",
