@@ -6,6 +6,8 @@ import type { GetPostsSummaryQueryParams } from "./interfaces/operations/getPost
 import type { GetPostsSummaryResponseDto } from "./interfaces/operations/getPostsSummary/response-body.ts";
 import type { GetDocumentationSummaryQueryParams } from "./interfaces/operations/getDocumentationSummary/query-params.ts";
 import type { GetDocumentationSummaryResponseDto } from "./interfaces/operations/getDocumentationSummary/response-body.ts";
+import type { GetDocumentationPathParams } from "./interfaces/operations/getDocumentation/path-params.ts";
+import type { GetDocumentationResponseDto } from "./interfaces/operations/getDocumentation/response-body.ts";
 import type { GetDocumentationSectionPathParams } from "./interfaces/operations/getDocumentationSection/path-params.ts";
 import type { GetDocumentationSectionResponseDto } from "./interfaces/operations/getDocumentationSection/response-body.ts";
 
@@ -62,6 +64,24 @@ export const registerGetDocumentationSummaryFunction = (
   getDocumentationSummary = fn;
 };
 
+export type GetDocumentationFunction = (args: {
+  params: GetDocumentationPathParams;
+}) =>
+  | {
+    body: GetDocumentationResponseDto;
+    status?: number;
+  }
+  | Promise<{
+    body: GetDocumentationResponseDto;
+    status?: number;
+  }>;
+let getDocumentation: GetDocumentationFunction | undefined = undefined;
+export const registerGetDocumentationFunction = (
+  fn: GetDocumentationFunction,
+) => {
+  getDocumentation = fn;
+};
+
 export type GetDocumentationSectionFunction = (args: {
   params: GetDocumentationSectionPathParams;
 }) =>
@@ -112,6 +132,17 @@ router
     }
     const res = await getDocumentationSummary({
       query: getQuery(context) as GetDocumentationSummaryQueryParams,
+    });
+    context.response.body = res.body;
+    if (res?.status !== undefined) context.response.status = res.status;
+  })
+  .get<GetDocumentationPathParams>("/doc/:id", async (context) => {
+    if (!getDocumentation) {
+      context.response.status = 501;
+      return;
+    }
+    const res = await getDocumentation({
+      params: context.params,
     });
     context.response.body = res.body;
     if (res?.status !== undefined) context.response.status = res.status;

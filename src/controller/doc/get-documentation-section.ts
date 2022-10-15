@@ -2,6 +2,7 @@ import { injector } from "../../../injector/mod.ts";
 import { DataProvider } from "../../provider/data.ts";
 import { GetDocumentationSectionFunction } from "../../../gen/router.ts";
 import { RendererService } from "../../service/renderer.service.ts";
+import { DocumentationSection } from "../../../gen/interfaces/common/DocumentationSection.ts";
 
 export const getDocumentationSection: GetDocumentationSectionFunction = async ({
   params,
@@ -22,10 +23,14 @@ export const getDocumentationSection: GetDocumentationSectionFunction = async ({
 
   const rendered = renderer.render(docSection.markdown);
 
-  const body = {
+  const body: DocumentationSection = {
     documentationTitle: doc.title,
     sectionTitle: doc.sections[sectionId].title,
     subSectionTitle: doc.sections[sectionId].subSections[subSectionId].title,
+    description: doc.description,
+    thumbnail: doc.thumbnail,
+    authors: doc.authors,
+    tags: doc.tags,
     contents: rendered.contents,
     html: rendered.html,
   };

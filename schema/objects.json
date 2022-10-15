@@ -111,44 +111,85 @@
       },
       "DocumentationSummary": {
         "type": "object",
-        "additionalProperties": {
-          "type": "object",
-          "properties": {
-            "title": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "default": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
               "type": "string"
-            },
-            "default": {
-              "type": "string"
-            },
-            "sections": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string"
-                  },
-                  "subSections": {
-                    "type": "object",
-                    "additionalProperties": {
-                      "type": "object",
-                      "properties": {
-                        "title": {
-                          "type": "string"
-                        }
-                      },
-                      "required": ["title"]
-                    }
-                  }
-                },
-                "required": ["title", "subSections"]
-              }
             }
           },
-          "required": ["title", "default", "sections"]
-        }
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "default",
+          "title",
+          "description",
+          "thumbnail",
+          "authors",
+          "tags"
+        ]
       },
       "Documentation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "default": {
+            "type": "string"
+          },
+          "sections": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "subSections": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["title"]
+                  }
+                }
+              },
+              "required": ["title", "subSections"]
+            }
+          }
+        },
+        "required": ["id", "title", "default", "sections"]
+      },
+      "DocumentationSection": {
         "type": "object",
         "properties": {
           "documentationTitle": {
@@ -159,6 +200,24 @@
           },
           "subSectionTitle": {
             "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "contents": {
             "$ref": "objects#Contents"
@@ -171,6 +230,10 @@
           "documentationTitle",
           "sectionTitle",
           "subSectionTitle",
+          "description",
+          "thumbnail",
+          "authors",
+          "tags",
           "contents",
           "html"
         ]

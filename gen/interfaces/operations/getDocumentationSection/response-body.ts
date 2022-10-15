@@ -1,2 +1,2 @@
-import type { Documentation } from "../../common/Documentation.ts";
-export type GetDocumentationSectionResponseDto = Documentation;
+import type { DocumentationSection } from "../../common/DocumentationSection.ts";
+export type GetDocumentationSectionResponseDto = DocumentationSection;

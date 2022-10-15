@@ -41,6 +41,10 @@ export interface DocSchema {
   id: string;
   title: string;
   default: string;
+  authors: string[];
+  description: string;
+  thumbnail: string;
+  tags: string[];
   sections: Record<
     string,
     {
@@ -53,7 +57,6 @@ export interface DocSchema {
       >;
     }
   >;
-  authors: string[];
   hidden: boolean;
   syncedOn: Date;
   updatedOn: Date;

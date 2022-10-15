@@ -3,7 +3,7 @@
 ## Run app
 
 ```bash
-deno run --allow-net --allow-read --allow-env flag src/main.t
+deno run --allow-net --allow-read --allow-env src/main.ts
 ```
 
 ## Run tests

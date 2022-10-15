@@ -13,15 +13,17 @@ export const getDocumentationSummary: GetDocumentationSummaryFunction = async ({
   if (query.author) search.author = query.author;
   const docs = await data.docs.find({ hidden: false }).toArray();
 
-  const body: DocumentationSummary = {};
-
-  for (const doc of docs) {
-    body[doc.id] = {
-      title: doc.title,
+  const body: DocumentationSummary[] = docs.map((doc) => {
+    return {
+      id: doc.id,
       default: doc.default,
-      sections: doc.sections,
+      title: doc.title,
+      description: doc.description,
+      thumbnail: doc.thumbnail,
+      authors: doc.authors,
+      tags: doc.tags,
     };
-  }
+  });
 
   return {
     body,

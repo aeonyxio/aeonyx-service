@@ -1,12 +1,9 @@
 export type DocumentationSummary = {
-  [key: string]: {
-    title: string;
-    default: string;
-    sections: {
-      [key: string]: {
-        title: string;
-        subSections: { [key: string]: { title: string } };
-      };
-    };
-  };
+  id: string;
+  default: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  authors: string[];
+  tags: string[];
 };

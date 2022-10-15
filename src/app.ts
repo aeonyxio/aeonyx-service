@@ -8,6 +8,7 @@ import { DocController } from "./controller/doc/controller.ts";
 import { DataProvider } from "./provider/data.ts";
 import { injector } from "../injector/mod.ts";
 import { join } from "https://deno.land/std@0.156.0/path/mod.ts";
+import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 
 export class Application {
   app: OakApplication;
@@ -28,6 +29,7 @@ export class Application {
 
     this.app.use(logger.logger);
     this.app.use(logger.responseTime);
+    this.app.use(oakCors());
     this.app.use(router.routes());
     this.app.use(router.allowedMethods());
     this.app.addEventListener("listen", ({ hostname, port, secure }) => {

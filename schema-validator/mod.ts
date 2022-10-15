@@ -4,6 +4,7 @@ import { createApiRecords } from "./create-api-records.ts";
 import { findApi } from "./find-api.ts";
 import { Validator } from "./validator.ts";
 import { Specification } from "./specification.ts";
+import { extractParams } from "./extract-params.ts";
 
 export const registerSchemaValidator = (
   app: Application,
@@ -18,13 +19,16 @@ export const registerSchemaValidator = (
       ? []
       : context.request.url.pathname.substring(1).split("/");
 
-    const pathParams: Record<string, string> = {};
-    const definition = findApi(sections, apis, pathParams).definition![
+    const definition = findApi(sections, apis).definition![
       context.request.method
     ];
 
     if (definition.pathParams) {
-      const valid = validator.ajv.validate(definition.pathParams, pathParams);
+      const pathParams: Record<string, string> = extractParams(
+        definition.pathParams,
+        context.request.url.pathname,
+      );
+      const valid = validator.ajv.validate(definition.pathParams, pathParams!);
       if (!valid) {
         context.response.status = 400;
         context.response.body = { errorText: validator.ajv.errorsText() };

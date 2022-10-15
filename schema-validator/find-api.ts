@@ -3,21 +3,14 @@ import type { ApiDefinition } from "./api-definition.type.ts";
 export const findApi = (
   remainingSections: string[],
   record: ApiDefinition,
-  params: Record<string, string>,
-  paramValue?: string,
 ): ApiDefinition => {
   const currSection = remainingSections.shift();
-  if (record.param) params[record.param] = paramValue!;
+  if (!record) throw new Error("Route not found");
   if (currSection !== undefined) {
     if (record.children[currSection!]) {
-      return findApi(remainingSections, record.children[currSection!], params);
+      return findApi(remainingSections, record.children[currSection!]);
     } else {
-      return findApi(
-        remainingSections,
-        record.children["*"],
-        params,
-        currSection,
-      );
+      return findApi(remainingSections, record.children["*"]);
     }
   } else {
     return record;

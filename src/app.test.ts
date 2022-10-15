@@ -6,7 +6,13 @@ import {
   it,
 } from "https://deno.land/std@0.158.0/testing/bdd.ts";
 import { injector } from "../injector/mod.ts";
-import { DataProvider } from "./provider/data.ts";
+import {
+  AuthorSchema,
+  DataProvider,
+  DocSchema,
+  DocSectionSchema,
+  PostSchema,
+} from "./provider/data.ts";
 import { Application } from "./app.ts";
 
 const app = new Application();
@@ -34,7 +40,7 @@ describe("Integration tests", () => {
         markdown: "## Heading",
         date: new Date("2022-10-02T14:51:31.406Z"),
       },
-    ];
+    ] as PostSchema[];
 
     injector.inject(
       {
@@ -66,6 +72,10 @@ describe("Integration tests", () => {
         id: "doc-1",
         title: "Test title 1.",
         default: "value",
+        authors: ["name 1"],
+        description: "description.",
+        thumbnail: "thumb.png",
+        tags: ["tag1"],
         sections: {
           section1: {
             title: "Test title.",
@@ -76,11 +86,18 @@ describe("Integration tests", () => {
             },
           },
         },
+        hidden: false,
+        updatedOn: new Date("2022-10-02T14:51:31.406Z"),
+        syncedOn: new Date("2022-10-02T14:51:31.406Z"),
       },
       {
         id: "doc-2",
         title: "Test title 2.",
         default: "value",
+        authors: ["name 1"],
+        description: "description.",
+        thumbnail: "thumb.png",
+        tags: ["tag1"],
         sections: {
           section1: {
             title: "Test title.",
@@ -91,8 +108,11 @@ describe("Integration tests", () => {
             },
           },
         },
+        hidden: false,
+        updatedOn: new Date("2022-10-02T14:51:31.406Z"),
+        syncedOn: new Date("2022-10-02T14:51:31.406Z"),
       },
-    ];
+    ] as DocSchema[];
 
     injector.inject(
       {
@@ -105,31 +125,73 @@ describe("Integration tests", () => {
     await request
       .get("/doc")
       .expect(200)
-      .expect({
-        "doc-1": {
-          title: "Test title 1.",
+      .expect([
+        {
+          id: "doc-1",
           default: "value",
-          sections: {
-            section1: {
+          title: "Test title 1.",
+          description: "description.",
+          thumbnail: "thumb.png",
+          authors: ["name 1"],
+          tags: ["tag1"],
+        },
+        {
+          id: "doc-2",
+          default: "value",
+          title: "Test title 2.",
+          description: "description.",
+          thumbnail: "thumb.png",
+          authors: ["name 1"],
+          tags: ["tag1"],
+        },
+      ]);
+  });
+
+  it("should return a specific documentation metadata", async () => {
+    const doc = {
+      id: "id",
+      title: "Test title 1.",
+      default: "value",
+      authors: ["name 1"],
+      description: "description.",
+      thumbnail: "thumb.png",
+      tags: ["tag1"],
+      sections: {
+        section1: {
+          title: "Test title.",
+          subSections: {
+            subSection1: {
               title: "Test title.",
-              subSections: {
-                subSection1: {
-                  title: "Test title.",
-                },
-              },
             },
           },
         },
-        "doc-2": {
-          title: "Test title 2.",
-          default: "value",
-          sections: {
-            section1: {
-              title: "Test title.",
-              subSections: {
-                subSection1: {
-                  title: "Test title.",
-                },
+      },
+      hidden: false,
+      updatedOn: new Date("2022-10-02T14:51:31.406Z"),
+      syncedOn: new Date("2022-10-02T14:51:31.406Z"),
+    } as DocSchema;
+
+    injector.inject(
+      {
+        docs: { findOne: sinon.stub(() => doc) },
+      },
+      { token: DataProvider, override: true },
+    );
+
+    const request = await superoak(app.app);
+    await request
+      .get("/doc/id")
+      .expect(200)
+      .expect({
+        id: "id",
+        title: "Test title 1.",
+        default: "value",
+        sections: {
+          section1: {
+            title: "Test title.",
+            subSections: {
+              subSection1: {
+                title: "Test title.",
               },
             },
           },
@@ -142,6 +204,10 @@ describe("Integration tests", () => {
       id: "doc",
       title: "Test title 1.",
       default: "value",
+      authors: ["name 1"],
+      description: "description.",
+      thumbnail: "thumb.png",
+      tags: ["tag1"],
       sections: {
         section: {
           title: "Test title 2.",
@@ -152,11 +218,17 @@ describe("Integration tests", () => {
           },
         },
       },
-    };
+      hidden: false,
+      updatedOn: new Date("2022-10-02T14:51:31.406Z"),
+      syncedOn: new Date("2022-10-02T14:51:31.406Z"),
+    } as DocSchema;
+
     const docSection = {
-      id: "doc--section--sub-section",
+      documentationId: "doc",
+      sectionId: "section",
+      subSectionId: "sub-section",
       markdown: "## Heading",
-    };
+    } as DocSectionSchema;
 
     injector.inject(
       {
@@ -174,6 +246,10 @@ describe("Integration tests", () => {
         documentationTitle: "Test title 1.",
         sectionTitle: "Test title 2.",
         subSectionTitle: "Test title 3.",
+        description: "description.",
+        thumbnail: "thumb.png",
+        authors: ["name 1"],
+        tags: ["tag1"],
         contents: [{ level: 2, heading: "Heading", id: "heading" }],
         html: '<h2 id="heading">Heading</h2>',
       });
@@ -189,13 +265,14 @@ describe("Integration tests", () => {
       tags: ["these", "are", "tags"],
       markdown: "## Heading",
       date: new Date("2022-10-02T14:51:31.406Z"),
-    };
+    } as PostSchema;
+
     const author = {
       id: "author-id",
       youtube: "author-youtube",
       description: "author-description",
       thumbnail: "author-thumbnail",
-    };
+    } as AuthorSchema;
 
     injector.inject(
       {
