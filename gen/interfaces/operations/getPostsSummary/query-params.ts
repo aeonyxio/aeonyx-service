@@ -1,1 +1,1 @@
-export type GetPostsSummaryQueryParams = {author?:string;};
+export type GetPostsSummaryQueryParams = { author?: string };

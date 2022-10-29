@@ -1,1 +1,1 @@
-export type GetPostByIdPathParams = {id:string;};
+export type GetPostByIdPathParams = { id: string };

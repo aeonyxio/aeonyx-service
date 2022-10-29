@@ -1,1 +1,1 @@
-export type GetDocumentationPathParams = {id:string;};
+export type GetDocumentationPathParams = { id: string };

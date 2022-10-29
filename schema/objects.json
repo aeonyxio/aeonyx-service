@@ -226,10 +226,10 @@
             "type": "string"
           },
           "previous": {
-            "$ref": "objects#DocSectionKey"
+            "$ref": "objects#DocSectionLookup"
           },
           "next": {
-            "$ref": "objects#DocSectionKey"
+            "$ref": "objects#DocSectionLookup"
           }
         },
         "required": [
@@ -262,7 +262,7 @@
           "required": ["level", "heading", "id"]
         }
       },
-      "DocSectionKey": {
+      "DocSectionLookup": {
         "type": "object",
         "properties": {
           "documentationId": {
@@ -273,9 +273,25 @@
           },
           "subSectionId": {
             "type": "string"
+          },
+          "documentationTitle": {
+            "type": "string"
+          },
+          "sectionTitle": {
+            "type": "string"
+          },
+          "subSectionTitle": {
+            "type": "string"
           }
         },
-        "required": ["documentationId", "sectionId", "subSectionId"]
+        "required": [
+          "documentationId",
+          "sectionId",
+          "subSectionId",
+          "documentationTitle",
+          "sectionTitle",
+          "subSectionTitle"
+        ]
       }
     }
   }
