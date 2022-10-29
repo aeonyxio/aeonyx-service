@@ -3,6 +3,7 @@ import { DataProvider } from "../../provider/data.ts";
 import { GetDocumentationSectionFunction } from "../../../gen/router.ts";
 import { RendererService } from "../../service/renderer.service.ts";
 import { DocumentationSection } from "../../../gen/interfaces/common/DocumentationSection.ts";
+import { DocSectionKey } from "../../../gen/interfaces/common/DocSectionKey.ts";
 
 export const getDocumentationSection: GetDocumentationSectionFunction = async ({
   params,
@@ -23,6 +24,37 @@ export const getDocumentationSection: GetDocumentationSectionFunction = async ({
 
   const rendered = renderer.render(docSection.markdown);
 
+  let previous: DocSectionKey | undefined;
+  let next: DocSectionKey | undefined;
+  let match = false;
+
+  loop1: for (const currSectionId of Object.keys(doc.sections)) {
+    for (const currSubSectionId of Object.keys(
+      doc.sections[currSectionId].subSections
+    )) {
+      if (
+        doc.id === documentationId &&
+        currSectionId === sectionId &&
+        currSubSectionId === subSectionId
+      ) {
+        match = true;
+      } else if (match) {
+        next = {
+          documentationId: doc.id,
+          sectionId: currSectionId,
+          subSectionId: currSubSectionId,
+        };
+        break loop1;
+      } else {
+        previous = {
+          documentationId: doc.id,
+          sectionId: currSectionId,
+          subSectionId: currSubSectionId,
+        };
+      }
+    }
+  }
+
   const body: DocumentationSection = {
     documentationTitle: doc.title,
     sectionTitle: doc.sections[sectionId].title,
@@ -33,6 +65,8 @@ export const getDocumentationSection: GetDocumentationSectionFunction = async ({
     tags: doc.tags,
     contents: rendered.contents,
     html: rendered.html,
+    previous,
+    next,
   };
 
   return {

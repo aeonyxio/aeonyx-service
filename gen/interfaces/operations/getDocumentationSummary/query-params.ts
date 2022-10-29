@@ -1,1 +1,1 @@
-export type GetDocumentationSummaryQueryParams = { author?: string };
+export type GetDocumentationSummaryQueryParams = {author?:string;};

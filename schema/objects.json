@@ -224,6 +224,12 @@
           },
           "html": {
             "type": "string"
+          },
+          "previous": {
+            "$ref": "objects#DocSectionKey"
+          },
+          "next": {
+            "$ref": "objects#DocSectionKey"
           }
         },
         "required": [
@@ -255,6 +261,21 @@
           },
           "required": ["level", "heading", "id"]
         }
+      },
+      "DocSectionKey": {
+        "type": "object",
+        "properties": {
+          "documentationId": {
+            "type": "string"
+          },
+          "sectionId": {
+            "type": "string"
+          },
+          "subSectionId": {
+            "type": "string"
+          }
+        },
+        "required": ["documentationId", "sectionId", "subSectionId"]
       }
     }
   }
